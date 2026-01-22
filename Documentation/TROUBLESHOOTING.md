@@ -1,37 +1,61 @@
-# Troubleshooting Guide for Frequency Generator Control System
+# Troubleshooting Guide
 
-This document serves as a comprehensive troubleshooting guide for the Frequency Generator Control System. If you encounter issues while using the system, please refer to the following common problems and their solutions.
+## Common Issues
 
-## Common Issues and Solutions
+### Device Not Recognized
 
-### 1. Device Not Recognized
-**Problem:** The frequency generator device is not recognized by the software.
-- **Solution:** Ensure that the device is properly connected to the computer. Try using a different USB port or cable, and restart the software.
+**Symptom:** COM port doesn't appear in Device Manager
 
-### 2. Inaccurate Frequency Output
-**Problem:** The output frequency does not match the expected frequency.
-- **Solution:** Check the configuration settings. Make sure the frequency is set correctly in the software interface. If issues persist, calibrate the device by following the calibration procedure outlined in the manual.
+**Solutions:**
+1. Check USB cable connection
+2. Install CH340 drivers if needed
+3. Restart computer
+4. Try different USB port
+5. Check Device Manager for unknown devices
 
-### 3. Software Crashes on Launch
-**Problem:** The application crashes immediately after launch.
-- **Solution:** Ensure that your system meets the software requirements. Try reinstalling the software or updating to the latest version.
+### Connection Failed
 
-### 4. Lost Power
-**Problem:** The device cuts off unexpectedly or loses power. 
-- **Solution:** Check the power supply and ensure that power cables are connected securely. If the device is powered by batteries, replace them with fresh ones.
+**Symptom:** "Cannot open COM port" error
 
-### 5. Communication Errors
-**Problem:** Unable to communicate with the device.
-- **Solution:** Verify that the correct communication settings (baud rate, COM port) are selected in the software. Restart both the device and the software.
+**Solutions:**
+1. Verify correct COM port selected
+2. Close other serial applications
+3. Check baud rate is 115200
+4. Ensure device is powered
 
-### 6. Software Configuration Issues
-**Problem:** Certain features or settings are not working as intended.
-- **Solution:** Reset the software to default settings. Refer to the user manual for details on configuration.
+### Frequency Not Changing
 
-## General Tips
-- Always keep your software updated to the latest version.
-- Review the user manual for detailed information on setup and usage.
-- If you cannot resolve the issue, consider reaching out to our support team at support@example.com.
+**Symptom:** Frequency command sent but not applied
 
-## Conclusion
-Follow the troubleshooting steps outlined above to resolve common issues with the Frequency Generator Control System. For further assistance, please consult the user manual or contact support.
+**Solutions:**
+1. Check PLL lock status
+2. Verify frequency in valid range
+3. Check RF output is enabled
+4. Try calibration
+
+### Temperature Warning
+
+**Symptom:** System shows temperature > 70°C
+
+**Solutions:**
+1. Reduce output power
+2. Reduce update rate
+3. Check cooling
+4. Wait for cooldown
+
+### Build Fails
+
+**Symptom:** Compilation errors
+
+**Solutions:**
+1. Verify ARM GCC installed: `arm-none-eabi-gcc --version`
+2. Check CMake installed: `cmake --version`
+3. Clean build directory: `rm -rf build && mkdir build`
+4. Retry build
+
+## Getting Help
+
+1. Check [API_REFERENCE.md](API_REFERENCE.md) for command syntax
+2. Check [USER_MANUAL.md](USER_MANUAL.md) for features
+3. Open GitHub Issue: https://github.com/PabloTaylor79/FrequencyGeneratorControlSystem/issues
+4. Join GitHub Discussions: https://github.com/PabloTaylor79/FrequencyGeneratorControlSystem/discussions
