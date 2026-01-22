@@ -1,0 +1,17 @@
+# Frequency Generator Control System Release Manifest
+
+## Project Files Structure
+- **src/**
+  - main.cpp
+  - utils/
+    - utility_functions.cpp
+    - utility_functions.h
+- **include/**
+  - main.h
+- **lib/**
+  - library_file.a
+
+## Installation Instructions
+1. Download the compressed archive of this project.
+2. Extract the contents to a directory of your choice.
+3. Follow the instructions in `README.md` to set up your environment.
