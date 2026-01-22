@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- Microsoft ResX File, format version 2.0 -->
+  <!-- To add a custom resource string, add an entry inside <resheader name="data"> -->
+  <!-- Example: -->
+  <!--   <data name="Color1" xml:space="preserve"> -->
+  <!--     <value>this is my custom color</value> -->
+  <!--   </data> -->
+  <!-- Example: -->
+  <!--   <data name="Bitmap1" type="System.Resources.ResXFileRef, System.Windows.Forms"> -->
+  <!--     <value>BitmapFile1.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value> -->
+  <!--   </data> -->
+
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="5" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AppIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AppIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f7f11d50a3a</value>
+  </data>
+
+  <!-- Application Resources -->
+  <data name="AppTitle" xml:space="preserve">
+    <value>Frequency Generator Control System</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>1.0.0</value>
+  </data>
+  <data name="AppCompany" xml:space="preserve">
+    <value>PabloTaylor79</value>
+  </data>
+  
+  <!-- UI Strings -->
+  <data name="MenuFile" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>&amp;About</value>
+  </data>
+  
+  <!-- Button Labels -->
+  <data name="ButtonConnect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="ButtonDisconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="ButtonStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="ButtonStop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  
+  <!-- Status Messages -->
+  <data name="StatusConnecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
+  <data name="StatusConnected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="StatusDisconnected" xml:space="preserve">
+    <value>Disconnected</value>
+  </data>
+  <data name="StatusError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="StatusReady" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  
+  <!-- Tab Titles -->
+  <data name="TabProgramEditor" xml:space="preserve">
+    <value>Program Editor</value>
+  </data>
+  <data name="TabRFControl" xml:space="preserve">
+    <value>RF Control</value>
+  </data>
+  <data name="TabMonitoring" xml:space="preserve">
+    <value>Monitoring</value>
+  </data>
+  <data name="TabSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="TabCalibration" xml:space="preserve">
+    <value>Calibration</value>
+  </data>
+  
+  <!-- Field Labels -->
+  <data name="LabelFrequency" xml:space="preserve">
+    <value>Frequency (Hz):</value>
+  </data>
+  <data name="LabelPower" xml:space="preserve">
+    <value>Power (dBm):</value>
+  </data>
+  <data name="LabelComPort" xml:space="preserve">
+    <value>COM Port:</value>
+  </data>
+  <data name="LabelBaudRate" xml:space="preserve">
+    <value>Baud Rate:</value>
+  </data>
+  <data name="LabelTemperature" xml:space="preserve">
+    <value>Temperature:</value>
+  </data>
+  <data name="LabelVoltage" xml:space="preserve">
+    <value>Voltage:</value>
+  </data>
+  <data name="LabelCurrent" xml:space="preserve">
+    <value>Current:</value>
+  </data>
+  
+  <!-- Error Messages -->
+  <data name="ErrorConnectionFailed" xml:space="preserve">
+    <value>Failed to connect to device. Please check the COM port and try again.</value>
+  </data>
+  <data name="ErrorCommandFailed" xml:space="preserve">
+    <value>Command failed. Please check your input and try again.</value>
+  </data>
+  <data name="ErrorDeviceNotConnected" xml:space="preserve">
+    <value>Device is not connected. Please connect first.</value>
+  </data>
+  <data name="ErrorInvalidFrequency" xml:space="preserve">
+    <value>Invalid frequency. Please enter a value between 10 MHz and 6 GHz.</value>
+  </data>
+  <data name="ErrorInvalidPower" xml:space="preserve">
+    <value>Invalid power. Please enter a value between -20 and +15 dBm.</value>
+  </data>
+  
+  <!-- Success Messages -->
+  <data name="SuccessConnected" xml:space="preserve">
+    <value>Successfully connected to device.</value>
+  </data>
+  <data name="SuccessDisconnected" xml:space="preserve">
+    <value>Successfully disconnected from device.</value>
+  </data>
+  <data name="SuccessCommandExecuted" xml:space="preserve">
+    <value>Command executed successfully.</value>
+  </data>
+</root>
