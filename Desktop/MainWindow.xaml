@@ -1,0 +1,130 @@
+<Window x:Class="FrequencyGenerator.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="Frequency Generator Control System" 
+        Height="800" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="#F5F5F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Background="#2196F3" Padding="20">
+            <TextBlock Text="Frequency Generator Control System" 
+                       FontSize="24" 
+                       Foreground="White" 
+                       FontWeight="Bold"/>
+        </StackPanel>
+
+        <!-- Main Content with Tabs -->
+        <TabControl Grid.Row="1" Margin="10">
+            <!-- Program Editor Tab -->
+            <TabItem Header="Program Editor" Padding="15,5">
+                <Grid Background="White">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Program Editor" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <TextBlock Text="Create and manage RF frequency sweep programs"/>
+                        <TextBlock Text="{Binding ProgramEditorViewModel.StatusMessage}" Margin="0,20,0,0" Foreground="Green"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- RF Control Tab -->
+            <TabItem Header="RF Control" Padding="15,5">
+                <Grid Background="White">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="RF Control" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <StackPanel>
+                            <TextBlock Text="Frequency (Hz):" FontWeight="Bold"/>
+                            <TextBox Text="{Binding RFControlViewModel.FrequencyInput}" Padding="5" Margin="0,5,0,10" Width="300" HorizontalAlignment="Left"/>
+                            <Button Content="Set Frequency" Command="{Binding RFControlViewModel.SetFrequencyCommand}" Padding="10" Background="#2196F3" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,20,0,0">
+                            <TextBlock Text="Power (dBm):" FontWeight="Bold"/>
+                            <Slider Minimum="-20" Maximum="15" Value="{Binding RFControlViewModel.CurrentPower}" Margin="0,5,0,10" Width="300"/>
+                            <Button Content="Set Power" Command="{Binding RFControlViewModel.SetPowerCommand}" Padding="10" Background="#2196F3" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,20,0,0">
+                            <CheckBox Content="RF Output" IsChecked="{Binding RFControlViewModel.RfOutputEnabled}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding RFControlViewModel.StatusMessage}" Margin="0,20,0,0" Foreground="Green"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Monitoring Tab -->
+            <TabItem Header="Monitoring" Padding="15,5">
+                <Grid Background="White">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="System Monitoring" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel>
+                                <TextBlock Text="Temperature:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.TemperatureStatus}" Foreground="Blue"/>
+                            </StackPanel>
+                            <StackPanel Margin="30,0,0,0">
+                                <TextBlock Text="Voltage:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.VoltageStatus}" Foreground="Blue"/>
+                            </StackPanel>
+                            <StackPanel Margin="30,0,0,0">
+                                <TextBlock Text="Health:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.HealthStatus}" Foreground="Blue"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="Status Log:" FontWeight="Bold" Margin="0,20,0,10"/>
+                        <ListBox ItemsSource="{Binding MonitoringViewModel.StatusLog}" Height="200" BorderBrush="#CCCCCC" BorderThickness="1"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Settings Tab -->
+            <TabItem Header="Settings" Padding="15,5">
+                <Grid Background="White">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Application Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <CheckBox Content="Auto Connect" IsChecked="{Binding SettingsViewModel.AutoConnectEnabled}" Margin="0,0,0,10"/>
+                        <CheckBox Content="Dark Theme" IsChecked="{Binding SettingsViewModel.DarkThemeEnabled}" Margin="0,0,0,10"/>
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock Text="Update Interval (ms):" FontWeight="Bold"/>
+                            <TextBox Text="{Binding SettingsViewModel.UpdateInterval}" Padding="5" Margin="0,5,0,10" Width="300" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,0">
+                            <Button Content="Save Settings" Command="{Binding SettingsViewModel.SaveSettingsCommand}" Padding="10" Background="#2196F3" Foreground="White" Width="120" HorizontalAlignment="Left"/>
+                            <Button Content="Reset to Defaults" Command="{Binding SettingsViewModel.ResetSettingsCommand}" Padding="10" Background="#FF9800" Foreground="White" Width="120" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding SettingsViewModel.StatusMessage}" Margin="0,20,0,0" Foreground="Green"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Calibration Tab -->
+            <TabItem Header="Calibration" Padding="15,5">
+                <Grid Background="White">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Calibration Management" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <TextBlock Text="Calibration Date:" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding CalibrationViewModel.CalibrationData.CalibrationDate}" Margin="0,5,0,10"/>
+                        <Button Content="Start Calibration" Command="{Binding CalibrationViewModel.StartCalibrationCommand}" Padding="10" Background="#4CAF50" Foreground="White" Width="150" HorizontalAlignment="Left"/>
+                        <Button Content="Save Calibration" Command="{Binding CalibrationViewModel.SaveCalibrationCommand}" Padding="10" Background="#2196F3" Foreground="White" Width="150" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                        <Button Content="Load Calibration" Command="{Binding CalibrationViewModel.LoadCalibrationCommand}" Padding="10" Background="#2196F3" Foreground="White" Width="150" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding CalibrationViewModel.StatusMessage}" Margin="0,20,0,0" Foreground="Green"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2" Background="#E0E0E0">
+            <StatusBarItem Content="Status:" Foreground="Black" HorizontalAlignment="Left" FontWeight="Bold"/>
+            <StatusBarItem Content="{Binding MainViewModel.ConnectionStatus}" Foreground="Red" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <Separator HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0"/>
+            <StatusBarItem Content="Version 1.0.0" Foreground="Black" HorizontalAlignment="Right"/>
+        </StatusBar>
+    </Grid>
+</Window>
