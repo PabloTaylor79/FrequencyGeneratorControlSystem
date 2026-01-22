@@ -1,243 +1,167 @@
-# Frequency Generator Control System
+# Frequency Generator Control System v1.0.0
 
-A comprehensive open-source project for controlling a wideband frequency generator (10 MHz - 6 GHz) based on STM32H743 microcontroller with WPF desktop application.
+A complete open-source RF frequency generator control system for generating signals from 10 MHz to 6 GHz with integrated power control, calibration, and real-time monitoring.
 
-## 🎯 Project Overview
+## Features
 
-This project provides a complete solution for generating and controlling RF frequencies across a wide range (10 MHz to 6 GHz) with the following capabilities:
+### Hardware Capabilities
+- **Frequency Range:** 10 MHz - 6 GHz
+- **Power Range:** -20 to +15 dBm
+- **Synthesizer:** MAX2871 PLL-based RF generator
+- **Microcontroller:** STM32H743 (480 MHz Cortex-M7)
+- **Real-time Kernel:** FreeRTOS
+- **Temperature Monitoring:** NTC thermistor
+- **Power Monitoring:** Voltage and current measurement
+- **Calibration Storage:** FRAM (Ferroelectric RAM)
 
-- **RF Frequency Generation:** Covers 10 MHz to 6 GHz range
-- **Power Control:** Adjustable output power (-20 to +15 dBm)
-- **Frequency Sweep:** Programmable linear frequency sweeps
-- **Audio Integration:** Built-in audio feedback system
-- **Real-time Monitoring:** Temperature, voltage, and current monitoring
-- **Calibration System:** Automated device calibration
-- **Desktop Application:** User-friendly WPF interface
+### Software Features
+- **Desktop Application:** WPF with modern Material Design UI
+- **MVVM Architecture:** Prism framework for clean code
+- **USB Communication:** Virtual COM port (CDC/ACM)
+- **Program Management:** Create and run frequency sweep programs
+- **Calibration System:** Automatic calibration with data storage
+- **Real-time Monitoring:** Live temperature, voltage, and current display
+- **Command Protocol:** Simple text-based commands over serial
 
-## 📋 System Architecture
+### Developer Features
+- **Complete Source Code:** Both firmware and desktop application
+- **Comprehensive Documentation:** Installation, API, troubleshooting
+- **Build System:** CMake for firmware, MSBuild for desktop
+- **Open Source:** MIT License - free to use and modify
+- **Well-Documented:** API reference and user manual included
 
-### Hardware Components
-
-- **Microcontroller:** STM32H743ZI (Arm Cortex-M7)
-- **RF Generator:** MAX2871 Frequency Synthesizer
-- **Power Amplifier:** PE4259 CMOS Switch
-- **Output Switch:** PE4314 Attenuator
-- **Audio Output:** MAX98357A Class D Amplifier
-- **Memory:** FRAM (Ferroelectric RAM) for calibration data
-- **Interface:** USB Type-C with CDC/ACM support
-
-### Software Components
-
-1. **Firmware (C):** STM32H743 bare-metal with FreeRTOS
-2. **Desktop App (C#):** WPF application with MVVM pattern
-3. **Communication:** USB CDC (Virtual COM Port)
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-**Firmware Development:**
-- ARM GCC Toolchain (arm-none-eabi-gcc)
-- STM32CubeIDE
-- CMake or Make
-- ST-Link debugger
-
-**Desktop Application:**
-- Visual Studio 2019+
-- .NET Framework 4.7.2+
-- Windows 10 or later
-
-### Building the Firmware
-
-```bash
-cd Firmware
-make clean all
-make flash
-```
-
-### Building the Desktop Application
-
-```bash
-cd Desktop
-dotnet build
-dotnet run
-```
-
-## 📁 Repository Structure
+## Project Structure
 
 ```
 FrequencyGeneratorControlSystem/
-├── Firmware/                    # STM32H743 firmware
-│   ├── src/                    # Source files
-│   ├── inc/                    # Header files
-│   ├── drivers/                # Device drivers
-│   ├── CMakeLists.txt
-│   └── Makefile
-├── Desktop/                    # WPF Desktop Application
-│   ├── ViewModels/
-│   ├── Views/
-│   ├── Services/
-│   ├── Models/
-│   └── *.csproj
-├── Documentation/              # Project documentation
-│   ├── README.md
-│   ├── INSTALLATION.md
-│   ├── USER_MANUAL.md
-│   ├── API_REFERENCE.md
-│   ├── TROUBLESHOOTING.md
-│   └── ARCHITECTURE.md
-├── LICENSE
+├── Firmware/                    # STM32H743 Embedded Code
+│   ├── inc/                    # Headers (8 files)
+│   ├── src/                    # Source files (8 files)
+│   ├── CMakeLists.txt         # CMake build config
+│   ├── Makefile               # GNU Make build
+│   └── README.md
+│
+├── Desktop/                     # WPF Desktop Application
+│   ├── Services/              # USB communication, program management
+│   ├── ViewModels/            # MVVM ViewModels
+│   ├── Views/                 # WPF XAML windows
+│   ├── Models/                # Data models
+│   ├── FrequencyGeneratorApp.csproj
+│   ├── App.xaml
+│   └── README.md
+│
+├── Documentation/              # Complete Guides
+│   ├── INSTALLATION.md        # Setup instructions
+│   ├── USER_MANUAL.md         # Usage guide
+│   ├── API_REFERENCE.md       # Command reference
+│   ├── TROUBLESHOOTING.md     # Problem solving
+│   └── ARCHITECTURE.md        # System design
+│
+├── README.md                  # This file
+├── HOW_TO_DOWNLOAD.md
+├── INSTALLATION.md
+├── CHANGELOG.md
 ├── CONTRIBUTING.md
+├── LICENSE                    # MIT License
 └── .gitignore
 ```
 
-## 📚 Documentation
+## Quick Start
 
-- **[Installation Guide](Documentation/INSTALLATION.md)** - Setup and hardware assembly
-- **[User Manual](Documentation/USER_MANUAL.md)** - Complete usage guide
-- **[API Reference](Documentation/API_REFERENCE.md)** - Command protocol documentation
-- **[Troubleshooting](Documentation/TROUBLESHOOTING.md)** - Common issues and solutions
-- **[Architecture](Documentation/ARCHITECTURE.md)** - System design details
-- **[Contributing](CONTRIBUTING.md)** - Contribution guidelines
-
-## 🎮 Features
-
-### Frequency Control
-- Precise frequency setting from 10 MHz to 6 GHz
-- Real-time frequency adjustment
-- Frequency sweep with configurable ramp time
-
-### Program Management
-- Create and save frequency sweep programs
-- Multi-step program execution
-- Program parameters: start frequency, stop frequency, ramp time, dwell time
-
-### Monitoring & Safety
-- Real-time temperature monitoring
-- Voltage and current measurement
-- Automatic thermal shutdown
-- PLL lock detection
-- Over-current protection
-
-### Calibration
-- Automated frequency calibration
-- Power level calibration
-- Calibration data storage in FRAM
-- Factory reset capability
-
-### Desktop Application
-- Intuitive MVVM architecture
-- Program editor with visual timeline
-- Real-time system monitoring dashboard
-- Settings and configuration panel
-- Firmware update utility
-
-## 🔧 Technology Stack
-
-**Firmware:**
-- C (ISO C11)
-- FreeRTOS real-time kernel
-- STM32 Hardware Abstraction Layer (HAL)
-
-**Desktop Application:**
-- C# (.NET Framework 4.7.2)
-- WPF (Windows Presentation Foundation)
-- Prism MVVM framework
-- Material Design themes
-
-## 📡 Communication Protocol
-
-The device uses a simple text-based command protocol over USB CDC:
-
-```
-Command Format: COMMAND:SUBCOMMAND <parameters>
-Response Format: OK or ERROR: <message>
-
-Example:
-  → RF:FREQ 2400000000
-  ← OK
-
-  → RF:FREQ?
-  ← 2400000000
+### Download
+```bash
+git clone https://github.com/PabloTaylor79/FrequencyGeneratorControlSystem.git
+cd FrequencyGeneratorControlSystem
 ```
 
-See [API Reference](Documentation/API_REFERENCE.md) for complete command documentation.
-
-## 🧪 Testing
-
-### Firmware Tests
+### Build Firmware
 ```bash
 cd Firmware
-make test
+make all
+make flash  # if ST-Link connected
 ```
 
-### Desktop Application Tests
+### Build Desktop App
 ```bash
 cd Desktop
-dotnet test
+dotnet build -c Release
+dotnet run
 ```
 
-## 🐛 Known Issues
+## System Requirements
 
-- Initial connection may require 500ms delay for device initialization
-- Large program files (>1000 steps) may require extended USB timeout
-- Some COM port drivers may conflict with legacy serial software
+### Firmware Development
+- ARM GCC Toolchain
+- CMake 3.15+
+- GNU Make
+- ST-Link debugger
 
-See [Troubleshooting](Documentation/TROUBLESHOOTING.md) for more details.
+### Desktop Application
+- Windows 10/11
+- Visual Studio 2019+
+- .NET Framework 4.7.2+
 
-## 📝 License
+### Hardware
+- STM32H743 microcontroller
+- MAX2871 RF synthesizer
+- USB interface (CH340G or similar)
+- Supporting components
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Installation
 
-## 🤝 Contributing
+See [INSTALLATION.md](Documentation/INSTALLATION.md) for detailed setup instructions.
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
-- Code style guidelines
-- Commit conventions
-- Pull request process
-- Testing requirements
+## Usage
 
-## 📬 Support
+See [USER_MANUAL.md](Documentation/USER_MANUAL.md) for complete usage guide.
 
-- 📖 Check the [Documentation](Documentation/) folder
-- 🐛 Report issues on [GitHub Issues](https://github.com/PabloTaylor79/FrequencyGeneratorControlSystem/issues)
-- 💬 Use [GitHub Discussions](https://github.com/PabloTaylor79/FrequencyGeneratorControlSystem/discussions)
+## API Reference
 
-## ✨ Roadmap
+See [API_REFERENCE.md](Documentation/API_REFERENCE.md) for all commands.
 
-- [ ] Web-based interface
-- [ ] Linux/macOS application
-- [ ] Advanced signal analysis features
-- [ ] Firmware OTA updates
-- [ ] Extended frequency range support
+## Troubleshooting
 
-## 🎓 Learning Resources
+See [TROUBLESHOOTING.md](Documentation/TROUBLESHOOTING.md) for common issues and solutions.
 
-This project demonstrates:
-- Embedded systems programming (STM32, FreeRTOS)
-- USB device communication
-- RF/microwave system design
-- Desktop application development (WPF, MVVM)
-- Cross-platform communication protocols
+## Contributing
 
-## 📊 Project Statistics
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
-- **Firmware Size:** ~150 KB
-- **Supported Frequencies:** 10 MHz - 6 GHz
-- **Power Range:** -20 to +15 dBm
-- **Frequency Resolution:** 1 Hz
-- **Sweep Time:** 0.1 - 3600 seconds
-- **Calibration Points:** 256
+## License
 
-## ⭐ Acknowledgments
+This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
 
-- STMicroelectronics for STM32 platform
-- FreeRTOS for real-time kernel
-- Prism framework for MVVM support
-- Material Design for UI themes
+## Support
+
+- **GitHub Issues:** https://github.com/PabloTaylor79/FrequencyGeneratorControlSystem/issues
+- **GitHub Discussions:** https://github.com/PabloTaylor79/FrequencyGeneratorControlSystem/discussions
+- **Documentation:** See Documentation/ folder
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+## Version
+
+**Current Version:** 1.0.0  
+**Release Date:** 2026-01-22  
+**Status:** Stable
+
+## Author
+
+**PabloTaylor79** - Full-stack development, hardware design, documentation
+
+## Acknowledgments
+
+- Prism MVVM Framework
+- STM32 HAL Library
+- FreeRTOS Real-Time Kernel
+- Material Design for WPF
+
+## Keywords
+
+RF Frequency Generator, STM32H743, MAX2871, WPF MVVM, Open Source, C, C#, Embedded Systems, USB Communication, Calibration System
 
 ---
 
-**Status:** Active Development  
-**Last Updated:** 2026-01-21 19:06:49  
-**Version:** 1.0.0
+**Ready to get started?** Read [README_FIRST.md](README_FIRST.md) for a quick introduction.

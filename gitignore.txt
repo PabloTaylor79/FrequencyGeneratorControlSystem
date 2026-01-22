@@ -1,0 +1,56 @@
+# Firmware Build Files
+Firmware/build/
+Firmware/*.o
+Firmware/*.a
+Firmware/*.elf
+Firmware/*.hex
+Firmware/*.bin
+Firmware/*.map
+Firmware/.vscode/
+
+# Desktop Build Files
+Desktop/bin/
+Desktop/obj/
+Desktop/.vs/
+Desktop/.vscode/
+Desktop/*.user
+Desktop/packages/
+
+# Common
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Temp Files
+*.tmp
+*.bak
+*.backup
+*.orig
