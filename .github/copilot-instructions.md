@@ -139,7 +139,6 @@ Always use `\r\n` line endings for commands.
 
 ### Do NOT:
 - Remove or modify working code without good reason
-- Use `any` type in TypeScript (not applicable - this is C/C# project)
 - Add breaking changes to the communication protocol without versioning
 - Commit sensitive data or hardware-specific calibration values to git
 - Use blocking I/O in UI thread (desktop app)
