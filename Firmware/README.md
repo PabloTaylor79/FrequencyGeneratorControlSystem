@@ -1,18 +1,33 @@
-# Firmware Project
+# Firmware
 
-This directory contains the firmware for the Frequency Generator Control System.
+STM32H743 microcontroller firmware for RF frequency generator control.
 
-## Project Overview
-The firmware is responsible for controlling the hardware functionalities of the frequency generator.
+## Overview
 
-## Installation
-1. Clone the repository.
-2. Navigate to the Firmware directory.
-3. Build the firmware using the provided tools.
+This firmware runs on STM32H743 microcontroller with FreeRTOS real-time kernel.
 
-## Usage
-- Load the firmware onto the device.
-- Configure settings through the provided interface.
+## Features
 
-## Contributing
-Feel free to contribute by submitting pull requests or raising issues!
+- RF frequency synthesis (10 MHz - 6 GHz)
+- Power control (-20 to +15 dBm)
+- USB CDC virtual COM port communication
+- Real-time monitoring (temperature, voltage, current)
+- Calibration data storage in FRAM
+- FreeRTOS task scheduling
+
+## Hardware
+
+- **MCU:** STM32H743ZI (Cortex-M7 @ 480 MHz)
+- **RF Generator:** MAX2871 (SPI interface)
+- **Communication:** UART3 to CH340G USB-to-Serial
+- **Monitoring:** ADC for temperature/voltage/current
+- **Storage:** I2C FRAM for calibration
+- **Power:** 5V supply with monitoring
+
+## Building
+
+### Prerequisites
+```bash
+arm-none-eabi-gcc --version
+cmake --version
+make --version

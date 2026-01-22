@@ -1,0 +1,122 @@
+# Build firmware for STM32H743
+.PHONY: all clean build flash monitor debug help
+
+# Compiler settings
+CC = arm-none-eabi-gcc
+OBJCOPY = arm-none-eabi-objcopy
+OBJDUMP = arm-none-eabi-objdump
+SIZE = arm-none-eabi-size
+GDB = arm-none-eabi-gdb
+
+# Project name
+PROJECT = firmware
+
+# Directories
+SRC_DIR = src
+INC_DIR = inc
+BUILD_DIR = build
+OUT_DIR = $(BUILD_DIR)
+
+# Files
+SOURCES = $(SRC_DIR)/main.c \
+          $(SRC_DIR)/max2871.c \
+          $(SRC_DIR)/hal_uart.c \
+          $(SRC_DIR)/hal_gpio.c \
+          $(SRC_DIR)/hal_adc.c \
+          $(SRC_DIR)/hal_i2c.c \
+          $(SRC_DIR)/calibration.c \
+          $(SRC_DIR)/stm32h743_startup.s
+
+OBJECTS = $(SOURCES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+OBJECTS := $(OBJECTS:$(SRC_DIR)/%.s=$(BUILD_DIR)/%.o)
+
+EXECUTABLE = $(OUT_DIR)/$(PROJECT).elf
+HEX_FILE = $(OUT_DIR)/$(PROJECT).hex
+BIN_FILE = $(OUT_DIR)/$(PROJECT).bin
+MAP_FILE = $(OUT_DIR)/$(PROJECT).map
+
+# Compiler flags
+CFLAGS = -mcpu=cortex-m7 -mthumb
+CFLAGS += -Wall -Wextra -Wpedantic
+CFLAGS += -O2 -ffunction-sections -fdata-sections
+CFLAGS += -I$(INC_DIR)
+CFLAGS += -DSTM32H743xx -DUSE_HAL_DRIVER
+
+# Assembler flags
+ASFLAGS = $(CFLAGS) -x assembler-with-cpp
+
+# Linker flags
+LDFLAGS = -mcpu=cortex-m7 -mthumb
+LDFLAGS += -Wl,-Map=$(MAP_FILE),--cref
+LDFLAGS += -Wl,--gc-sections
+LDFLAGS += -Tlinker.ld
+LDFLAGS += --specs=nosys.specs
+LDFLAGS += -lm -lc -lgcc
+
+# Targets
+all: $(HEX_FILE) $(BIN_FILE)
+	@echo ""
+	@echo "Build complete!"
+	@$(SIZE) $(EXECUTABLE)
+
+$(BUILD_DIR):
+	@mkdir -p $(BUILD_DIR)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	@echo "Compiling: $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.s | $(BUILD_DIR)
+	@echo "Assembling: $<"
+	@$(CC) $(ASFLAGS) -c $< -o $@
+
+$(EXECUTABLE): $(OBJECTS)
+	@echo "Linking: $@"
+	@$(CC) $(LDFLAGS) $^ -o $@
+	@echo "Successfully linked $(PROJECT)"
+
+$(HEX_FILE): $(EXECUTABLE)
+	@echo "Creating HEX: $@"
+	@$(OBJCOPY) -Oihex $< $@
+
+$(BIN_FILE): $(EXECUTABLE)
+	@echo "Creating BIN: $@"
+	@$(OBJCOPY) -Obinary $< $@
+
+clean:
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILD_DIR)
+	@echo "Clean complete"
+
+flash: $(BIN_FILE)
+	@echo "Flashing firmware to device..."
+	@st-flash write $(BIN_FILE) 0x08000000
+	@echo "Flash complete"
+
+monitor:
+	@echo "Opening serial monitor (115200 baud)..."
+	@minicom -D /dev/ttyUSB0 -b 115200
+
+debug: $(EXECUTABLE)
+	@echo "Starting GDB debugger..."
+	@$(GDB) -ex "target remote :4242" $<
+
+size: $(EXECUTABLE)
+	@$(SIZE) $<
+
+help:
+	@echo "Frequency Generator Firmware - Build Targets"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  all     - Build firmware (default)"
+	@echo "  clean   - Remove build artifacts"
+	@echo "  flash   - Flash firmware to device (requires st-link)"
+	@echo "  monitor - Open serial monitor"
+	@echo "  debug   - Start GDB debugger"
+	@echo "  size    - Show firmware size"
+	@echo "  help    - Display this help"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make all"
+	@echo "  make clean && make"
+	@echo "  make flash"
