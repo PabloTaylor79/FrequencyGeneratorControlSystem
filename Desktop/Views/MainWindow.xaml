@@ -1,0 +1,544 @@
+<Window x:Class="FrequencyGenerator.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d"
+        Title="Frequency Generator Control System" 
+        Height="800" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme PrimaryColor="Blue" SecondaryColor="Cyan" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header/Toolbar -->
+        <Border Grid.Row="0" Background="#2196F3" Padding="20">
+            <DockPanel>
+                <TextBlock Text="Frequency Generator Control System" 
+                           FontSize="24" 
+                           Foreground="White" 
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ComboBox x:Name="ComPortSelector" 
+                              Width="120" 
+                              Margin="0,0,10,0"
+                              materialDesign:HintAssist.Hint="COM Port"
+                              Foreground="White"
+                              Background="#1976D2"/>
+                    <Button Content="Connect" 
+                            Command="{Binding MainViewModel.ConnectCommand}"
+                            Padding="20,10"
+                            Background="#FFC107"
+                            Foreground="Black"
+                            FontWeight="Bold"
+                            Margin="0,0,10,0"/>
+                    <Button Content="Disconnect" 
+                            Command="{Binding MainViewModel.DisconnectCommand}"
+                            Padding="20,10"
+                            Background="#F44336"
+                            Foreground="White"
+                            FontWeight="Bold"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Main Content with Tabs -->
+        <TabControl Grid.Row="1" Margin="0">
+            
+            <!-- Program Editor Tab -->
+            <TabItem Header="Program Editor" Padding="20,10">
+                <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Program List Panel -->
+                    <StackPanel Grid.Column="0" Margin="20" Background="#F5F5F5" Padding="15">
+                        <TextBlock Text="Programs" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+                        
+                        <TextBlock Text="Program Name:" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="ProgramNameInput" 
+                                 Text="{Binding ProgramEditorViewModel.NewProgramName}"
+                                 Padding="10"
+                                 Margin="0,0,0,10"
+                                 materialDesign:HintAssist.Hint="Enter program name"/>
+                        
+                        <Button Content="Create Program" 
+                                Command="{Binding ProgramEditorViewModel.CreateProgramCommand}"
+                                Padding="10"
+                                Margin="0,0,0,15"
+                                Background="#4CAF50"
+                                Foreground="White"
+                                FontWeight="Bold"/>
+                        
+                        <ListBox ItemsSource="{Binding ProgramEditorViewModel.Programs}"
+                                 SelectedItem="{Binding ProgramEditorViewModel.CurrentProgram}"
+                                 Height="250"
+                                 Margin="0,0,0,15"
+                                 Background="White"
+                                 BorderBrush="#CCCCCC"
+                                 BorderThickness="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        
+                        <Button Content="Delete Program" 
+                                Command="{Binding ProgramEditorViewModel.DeleteProgramCommand}"
+                                Padding="10"
+                                Margin="0,0,0,10"
+                                Background="#F44336"
+                                Foreground="White"/>
+                        
+                        <Button Content="Add Step" 
+                                Command="{Binding ProgramEditorViewModel.AddStepCommand}"
+                                Padding="10"
+                                Margin="0,0,0,10"
+                                Background="#2196F3"
+                                Foreground="White"/>
+                        
+                        <Button Content="Save Program" 
+                                Command="{Binding ProgramEditorViewModel.SaveProgramCommand}"
+                                Padding="10"
+                                Background="#FF9800"
+                                Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Program Details Panel -->
+                    <StackPanel Grid.Column="1" Margin="20" Padding="15">
+                        <TextBlock Text="Program Details" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+                        
+                        <TextBlock Text="{Binding ProgramEditorViewModel.StatusMessage}" 
+                                   Foreground="Green"
+                                   Margin="0,0,0,20"
+                                   FontWeight="Bold"/>
+                        
+                        <Grid Background="#F5F5F5" Padding="15" Margin="0,0,0,15">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" FontWeight="Bold" Margin="0,0,15,10"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProgramEditorViewModel.CurrentProgram.Name}" Margin="0,0,0,10"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:" FontWeight="Bold" Margin="0,0,15,10"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ProgramEditorViewModel.CurrentProgram.Description}" Margin="0,0,0,10"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Created:" FontWeight="Bold" Margin="0,0,15,10"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ProgramEditorViewModel.CurrentProgram.CreatedDate, StringFormat='{0:yyyy-MM-dd HH:mm}'}" Margin="0,0,0,10"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Steps:" FontWeight="Bold" Margin="0,0,15,0"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ProgramEditorViewModel.CurrentProgram.Steps.Count}"/>
+                        </Grid>
+
+                        <TextBlock Text="Program Steps:" FontWeight="Bold" Margin="0,15,0,10"/>
+                        <DataGrid ItemsSource="{Binding ProgramEditorViewModel.CurrentProgram.Steps}"
+                                  Height="300"
+                                  Background="White"
+                                  BorderBrush="#CCCCCC"
+                                  BorderThickness="1"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Start Freq (Hz)" Binding="{Binding StartFrequency}" Width="*"/>
+                                <DataGridTextColumn Header="Stop Freq (Hz)" Binding="{Binding StopFrequency}" Width="*"/>
+                                <DataGridTextColumn Header="Ramp (s)" Binding="{Binding RampTime}" Width="80"/>
+                                <DataGridTextColumn Header="Dwell (s)" Binding="{Binding DwellTime}" Width="80"/>
+                                <DataGridTextColumn Header="Power (dBm)" Binding="{Binding Power}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- RF Control Tab -->
+            <TabItem Header="RF Control" Padding="20,10">
+                <Grid Background="White">
+                    <StackPanel Margin="30" MaxWidth="600">
+                        <TextBlock Text="RF Control Panel" FontSize="18" FontWeight="Bold" Margin="0,0,0,30"/>
+
+                        <!-- Frequency Control -->
+                        <Border Background="#E3F2FD" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="Frequency Control" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                
+                                <TextBlock Text="Frequency (Hz):" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBox x:Name="FrequencyInput" 
+                                         Text="{Binding RFControlViewModel.FrequencyInput, UpdateSourceTrigger=PropertyChanged}"
+                                         Padding="10"
+                                         Margin="0,0,0,10"
+                                         materialDesign:HintAssist.Hint="Enter frequency in Hz"/>
+                                
+                                <Button Content="Set Frequency" 
+                                        Command="{Binding RFControlViewModel.SetFrequencyCommand}"
+                                        Padding="15,10"
+                                        Background="#2196F3"
+                                        Foreground="White"
+                                        FontWeight="Bold"
+                                        Margin="0,0,0,15"/>
+                                
+                                <TextBlock Text="Current Frequency:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding RFControlViewModel.CurrentFrequency, StringFormat='{0:F0} Hz'}"
+                                           FontSize="14"
+                                           Foreground="#1976D2"
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Power Control -->
+                        <Border Background="#F3E5F5" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="Power Control" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                
+                                <TextBlock Text="Power (dBm):" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <Slider Minimum="-20" 
+                                        Maximum="15" 
+                                        Value="{Binding RFControlViewModel.CurrentPower}"
+                                        Margin="0,0,0,10"
+                                        Foreground="#9C27B0"/>
+                                
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="-20 dBm" FontSize="10"/>
+                                    <TextBlock Grid.Column="2" Text="+15 dBm" FontSize="10" TextAlignment="Right"/>
+                                </Grid>
+                                
+                                <Button Content="Set Power" 
+                                        Command="{Binding RFControlViewModel.SetPowerCommand}"
+                                        Padding="15,10"
+                                        Background="#9C27B0"
+                                        Foreground="White"
+                                        FontWeight="Bold"
+                                        Margin="0,0,0,15"/>
+                                
+                                <TextBlock Text="Current Power:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding RFControlViewModel.CurrentPower, StringFormat='{0} dBm'}"
+                                           FontSize="14"
+                                           Foreground="#6A1B9A"
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- RF Output Control -->
+                        <Border Background="#E8F5E9" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="RF Output" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                
+                                <ToggleButton IsChecked="{Binding RFControlViewModel.RfOutputEnabled}"
+                                             Padding="15"
+                                             Margin="0,0,0,15"
+                                             Background="#4CAF50"
+                                             Foreground="White"
+                                             FontWeight="Bold">
+                                    <ToggleButton.Content>
+                                        <TextBlock Text="{Binding RFControlViewModel.RfOutputEnabled, StringFormat='RF Output: {0:OFF,ON}'}" 
+                                                   FontSize="12"/>
+                                    </ToggleButton.Content>
+                                </ToggleButton>
+                                
+                                <TextBlock Text="Status:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding RFControlViewModel.RfOutputEnabled, StringFormat='RF Output is {0:DISABLED,ENABLED}'}"
+                                           FontSize="12"
+                                           Foreground="#2E7D32"
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="{Binding RFControlViewModel.StatusMessage}" 
+                                   Foreground="Green"
+                                   Margin="0,20,0,0"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Monitoring Tab -->
+            <TabItem Header="Monitoring" Padding="20,10">
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Status Indicators -->
+                    <Grid Grid.Row="0" Margin="20" Background="#F5F5F5" Padding="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Background="White" Padding="15" Margin="0,0,10,0" CornerRadius="5" BorderBrush="#FF9800" BorderThickness="2">
+                            <StackPanel>
+                                <TextBlock Text="Temperature" FontWeight="Bold" Foreground="#FF9800" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.TemperatureStatus}" 
+                                           FontSize="16" 
+                                           Foreground="#FF6F00"
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.SystemStatus.Temperature, StringFormat='{0:F1}°C'}" 
+                                           FontSize="12" 
+                                           Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="1" Background="White" Padding="15" Margin="10,0,10,0" CornerRadius="5" BorderBrush="#2196F3" BorderThickness="2">
+                            <StackPanel>
+                                <TextBlock Text="Voltage" FontWeight="Bold" Foreground="#2196F3" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.VoltageStatus}" 
+                                           FontSize="16" 
+                                           Foreground="#1565C0"
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.SystemStatus.Voltage, StringFormat='{0:F2}V'}" 
+                                           FontSize="12" 
+                                           Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="2" Background="White" Padding="15" Margin="10,0,0,0" CornerRadius="5" BorderBrush="#4CAF50" BorderThickness="2">
+                            <StackPanel>
+                                <TextBlock Text="System Health" FontWeight="Bold" Foreground="#4CAF50" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding MonitoringViewModel.HealthStatus}" 
+                                           FontSize="16" 
+                                           Foreground="#2E7D32"
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="Status" FontSize="12" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Status Log -->
+                    <StackPanel Grid.Row="1" Margin="20,20,20,20">
+                        <TextBlock Text="Status Log" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <ListBox ItemsSource="{Binding MonitoringViewModel.StatusLog}"
+                                 Height="250"
+                                 Background="White"
+                                 BorderBrush="#CCCCCC"
+                                 BorderThickness="1"
+                                 Padding="10">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" 
+                                               FontFamily="Courier New"
+                                               FontSize="11"
+                                               Margin="0,2,0,2"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Content="Clear Log" 
+                                Margin="0,10,0,0"
+                                Padding="10"
+                                Background="#9E9E9E"
+                                Foreground="White"
+                                Width="100"
+                                HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Settings Tab -->
+            <TabItem Header="Settings" Padding="20,10">
+                <Grid Background="White">
+                    <StackPanel Margin="30" MaxWidth="500">
+                        <TextBlock Text="Application Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,30"/>
+
+                        <!-- Connection Settings -->
+                        <Border Background="#F5F5F5" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="Connection Settings" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                
+                                <CheckBox Content="Auto Connect on Startup" 
+                                          IsChecked="{Binding SettingsViewModel.AutoConnectEnabled}"
+                                          Margin="0,0,0,15"
+                                          FontSize="12"/>
+                                
+                                <TextBlock Text="Baud Rate:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBlock Text="115200" FontSize="12" Margin="0,0,0,15"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Display Settings -->
+                        <Border Background="#F5F5F5" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="Display Settings" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                
+                                <CheckBox Content="Dark Theme" 
+                                          IsChecked="{Binding SettingsViewModel.DarkThemeEnabled}"
+                                          Margin="0,0,0,15"
+                                          FontSize="12"/>
+                                
+                                <TextBlock Text="Update Interval (ms):" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBox Text="{Binding SettingsViewModel.UpdateInterval, UpdateSourceTrigger=PropertyChanged}"
+                                         Padding="10"
+                                         Margin="0,0,0,10"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Firmware Info -->
+                        <Border Background="#F5F5F5" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="Device Information" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                
+                                <TextBlock Text="Firmware Version:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding SettingsViewModel.FirmwareVersion}" FontSize="12" Margin="0,0,0,10"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                            <Button Content="Save Settings" 
+                                    Command="{Binding SettingsViewModel.SaveSettingsCommand}"
+                                    Padding="15,10"
+                                    Background="#2196F3"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="0,0,10,0"/>
+                            
+                            <Button Content="Reset to Defaults" 
+                                    Command="{Binding SettingsViewModel.ResetSettingsCommand}"
+                                    Padding="15,10"
+                                    Background="#FF9800"
+                                    Foreground="White"
+                                    FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding SettingsViewModel.StatusMessage}" 
+                                   Foreground="Green"
+                                   Margin="0,20,0,0"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Calibration Tab -->
+            <TabItem Header="Calibration" Padding="20,10">
+                <Grid Background="White">
+                    <StackPanel Margin="30" MaxWidth="500">
+                        <TextBlock Text="Calibration Management" FontSize="18" FontWeight="Bold" Margin="0,0,0,30"/>
+
+                        <Border Background="#F5F5F5" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="Calibration Date:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding CalibrationViewModel.CalibrationData.CalibrationDate, StringFormat='{0:yyyy-MM-dd HH:mm:ss}'}" 
+                                           FontSize="12"
+                                           Margin="0,0,0,20"/>
+
+                                <TextBlock Text="Status:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding CalibrationViewModel.StatusMessage}" 
+                                           FontSize="12"
+                                           Foreground="Green"
+                                           FontWeight="Bold"
+                                           Margin="0,0,0,20"/>
+
+                                <ProgressBar IsIndeterminate="{Binding CalibrationViewModel.IsCalibrating}"
+                                             Height="20"
+                                             Margin="0,0,0,20"
+                                             Visibility="{Binding CalibrationViewModel.IsCalibrating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Orientation="Vertical" Margin="0,0,0,20">
+                            <Button Content="Start Calibration" 
+                                    Command="{Binding CalibrationViewModel.StartCalibrationCommand}"
+                                    Padding="15,10"
+                                    Background="#4CAF50"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="0,0,0,10"/>
+                            
+                            <Button Content="Save Calibration" 
+                                    Command="{Binding CalibrationViewModel.SaveCalibrationCommand}"
+                                    Padding="15,10"
+                                    Background="#2196F3"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="0,0,0,10"/>
+                            
+                            <Button Content="Load Calibration" 
+                                    Command="{Binding CalibrationViewModel.LoadCalibrationCommand}"
+                                    Padding="15,10"
+                                    Background="#FF9800"
+                                    Foreground="White"
+                                    FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Calibration Notes:" FontWeight="Bold" Margin="0,20,0,10"/>
+                        <TextBox Text="{Binding CalibrationViewModel.CalibrationData.CalibrationNotes}"
+                                 Height="100"
+                                 AcceptsReturn="True"
+                                 Padding="10"
+                                 Background="White"
+                                 BorderBrush="#CCCCCC"
+                                 BorderThickness="1"
+                                 VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2" Background="#E0E0E0" Padding="10">
+            <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=StatusBar}, Path=ActualWidth}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="Status:" FontWeight="Bold" Foreground="Black" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding MainViewModel.ConnectionStatus}" 
+                               Foreground="{Binding MainViewModel.ConnectionStatus, Converter={StaticResource StatusColorConverter}}"
+                               FontWeight="Bold"/>
+                </StackPanel>
+
+                <Separator Grid.Column="1" 
+                           Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" 
+                           Margin="10,0,10,0"/>
+
+                <TextBlock Grid.Column="2" 
+                           Text="Version 1.0.0" 
+                           Foreground="Black"
+                           FontWeight="Bold"/>
+            </Grid>
+        </StatusBar>
+    </Grid>
+</Window>
